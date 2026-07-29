@@ -127,10 +127,9 @@ export const commentConfig: CommentConfig = {
 };
 
 export const newsletterConfig: NewsletterConfig = {
-	// username を設定してから true にする
-	enable: false,
+	enable: true,
 	// https://buttondown.com/<username> の <username> 部分
-	username: "",
+	username: "doa",
 	title: "Newsletter",
 	description: "新しい記事を公開したらお知らせします。",
 	placeholder: "your@email.com",
