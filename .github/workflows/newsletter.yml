@@ -1,0 +1,53 @@
+name: Newsletter
+
+# 新しい記事が追加されたら Buttondown にメールを作る。
+# 既定は下書き作成なので、内容を確認してから Buttondown 側で送信する。
+# 自動送信に切り替えるときは NEWSLETTER_STATUS を about_to_send にする。
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/content/posts/**.md"
+  workflow_dispatch:
+    inputs:
+      files:
+        description: "対象の記事 (スペース区切り、省略時は直近の push の差分)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # 差分を取るため直前のコミットも必要
+          fetch-depth: 2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Collect newly added posts
+        id: collect
+        run: |
+          if [ -n "${{ inputs.files }}" ]; then
+            FILES="${{ inputs.files }}"
+          else
+            # 追加 (A) されたファイルのみ。既存記事の修正では配信しない。
+            FILES=$(git diff --name-only --diff-filter=A "${{ github.event.before }}" "${{ github.sha }}" \
+              -- 'src/content/posts/**.md' | tr '\n' ' ')
+          fi
+          echo "対象: ${FILES:-なし}"
+          echo "files=$FILES" >> "$GITHUB_OUTPUT"
+
+      - name: Create newsletter
+        if: steps.collect.outputs.files != ''
+        env:
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+          NEWSLETTER_STATUS: draft
+          SITE_URL: https://doany.io
+        run: node scripts/newsletter.mjs ${{ steps.collect.outputs.files }}

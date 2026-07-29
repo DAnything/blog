@@ -54,6 +54,9 @@ spec:
                 secretKeyRef:
                   name: remark42-secrets
                   key: secret
+            # モデレーション権限を持つユーザー (Entra ID でログインしたもの)
+            - name: ADMIN_SHARED_ID
+              value: "microsoft_551ee4674e123995b5675a14d14e6928be69cd52"
             # 管理 API 用の Basic 認証 (ユーザー名 admin)
             - name: ADMIN_PASSWD
               valueFrom:
