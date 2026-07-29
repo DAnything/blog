@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: remark42
-          image: ghcr.io/umputun/remark42:v1.14.0
+          image: ghcr.io/umputun/remark42:v1.16.4
           ports:
             - containerPort: 8080
           env:
@@ -62,10 +62,13 @@ spec:
                   key: admin-passwd
             # モデレーションは Entra ID でログインした管理者が行う。
             # 読者は上記の匿名投稿をそのまま使う。
-            # remark42 にテナント指定のオプションはないが、アプリ登録が
-            # シングルテナント (AzureADMyOrg) なので他テナントは弾かれる。
+            # アプリ登録がシングルテナント (AzureADMyOrg) のため、既定の
+            # /common エンドポイントでは AADSTS50194 で弾かれる。
+            # テナントを明示すること (v1.16 以降で対応)。
             - name: AUTH_MICROSOFT_CID
               value: "b0fa498f-7e6a-4fe1-a1c6-16fbbb6f397e"
+            - name: AUTH_MICROSOFT_TENANT
+              value: "22ac977d-b140-4dc8-8150-90d645d3475b"
             - name: AUTH_MICROSOFT_CSEC
               valueFrom:
                 secretKeyRef:
