@@ -77,24 +77,21 @@ export type LicenseConfig = {
 	url: string;
 };
 
-export type GiscusConfig = {
-	repo: string;
-	repoId: string;
-	category: string;
-	categoryId: string;
-	mapping: "pathname" | "url" | "title" | "og:title";
-	strict: "0" | "1";
-	reactionsEnabled: "0" | "1";
-	emitMetadata: "0" | "1";
-	inputPosition: "top" | "bottom";
-	lang: string;
-	lightTheme: string;
-	darkTheme: string;
+export type Remark42Config = {
+	/** remark42 サーバーの URL (REMARK_URL と一致させる) */
+	host: string;
+	/** remark42 の SITE と一致させる */
+	siteId: string;
+	locale: string;
+	/** true にすると返信・スレッド表示を省いた簡易 UI になる */
+	simpleView: boolean;
+	showEmailSubscription: boolean;
+	showRssSubscription: boolean;
 };
 
 export type CommentConfig = {
 	enable: boolean;
-	giscus: GiscusConfig;
+	remark42: Remark42Config;
 };
 
 export type KofiConfig = {

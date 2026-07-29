@@ -11,6 +11,9 @@
 
 	# --- 旧 Next.js 版 URL からの 301 ---
 	redir /feed.xml /rss.xml permanent
+	# ご挨拶記事はサイト構成の紹介記事として書き直した
+	redir /posts/hello/ /posts/renewal/ permanent
+	redir /posts/hello /posts/renewal/ permanent
 	redir /projects /about/ permanent
 	redir /projects/ /about/ permanent
 	redir /tags /archive/ permanent

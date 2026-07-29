@@ -4,7 +4,7 @@ import { commentConfig } from "@/config";
 {commentConfig.enable && (
     <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
         <div class="card-base z-10 px-6 md:px-9 py-6 relative w-full">
-            <div id="giscus-container"></div>
+            <div id="remark42"></div>
         </div>
     </div>
 )}
@@ -12,54 +12,70 @@ import { commentConfig } from "@/config";
 <script>
 import { commentConfig } from "@/config";
 
-const { giscus } = commentConfig;
-const GISCUS_ORIGIN = "https://giscus.app";
+const { remark42 } = commentConfig;
+
+declare global {
+	interface Window {
+		remark_config?: Record<string, unknown>;
+		REMARK42?: {
+			changeTheme?: (theme: string) => void;
+			destroy?: () => void;
+			createInstance?: (config: Record<string, unknown>) => void;
+		};
+	}
+}
 
 // テーマ切替は html 要素の dark クラスの付け外しで行われる
 function currentTheme(): string {
-	return document.documentElement.classList.contains("dark")
-		? giscus.darkTheme
-		: giscus.lightTheme;
+	return document.documentElement.classList.contains("dark") ? "dark" : "light";
+}
+
+function buildConfig() {
+	return {
+		host: remark42.host,
+		site_id: remark42.siteId,
+		components: ["embed"],
+		locale: remark42.locale,
+		theme: currentTheme(),
+		simple_view: remark42.simpleView,
+		show_email_subscription: remark42.showEmailSubscription,
+		show_rss_subscription: remark42.showRssSubscription,
+		// クエリ文字列でスレッドが分かれないよう URL を明示する
+		url: location.origin + location.pathname,
+	};
 }
 
 function mount() {
-	const container = document.getElementById("giscus-container");
-	// swup 遷移後はコンテナが差し替わるため、未挿入のときだけ埋め込む
-	if (!container || container.querySelector("script, iframe")) return;
+	const container = document.getElementById("remark42");
+	if (!container) return;
 
-	const script = document.createElement("script");
-	script.src = `${GISCUS_ORIGIN}/client.js`;
-	script.async = true;
-	script.crossOrigin = "anonymous";
+	window.remark_config = buildConfig();
 
-	const attrs: Record<string, string> = {
-		"data-repo": giscus.repo,
-		"data-repo-id": giscus.repoId,
-		"data-category": giscus.category,
-		"data-category-id": giscus.categoryId,
-		"data-mapping": giscus.mapping,
-		"data-strict": giscus.strict,
-		"data-reactions-enabled": giscus.reactionsEnabled,
-		"data-emit-metadata": giscus.emitMetadata,
-		"data-input-position": giscus.inputPosition,
-		"data-lang": giscus.lang,
-		"data-theme": currentTheme(),
-		"data-loading": "lazy",
-	};
-	for (const [key, value] of Object.entries(attrs)) {
-		script.setAttribute(key, value);
+	// 2 回目以降 (swup 遷移) は既存インスタンスを捨てて作り直す
+	if (window.REMARK42?.createInstance) {
+		window.REMARK42.destroy?.();
+		window.REMARK42.createInstance(window.remark_config);
+		return;
 	}
 
-	container.appendChild(script);
+	// 初回はローダーを注入する。読み込み後に window.REMARK42 が生える。
+	const useModule = "noModule" in HTMLScriptElement.prototype;
+	for (const name of ["embed"]) {
+		const script = document.createElement("script");
+		if (useModule) {
+			script.type = "module";
+			script.src = `${remark42.host}/web/${name}.mjs`;
+		} else {
+			script.async = true;
+			script.defer = true;
+			script.src = `${remark42.host}/web/${name}.js`;
+		}
+		(document.head || document.body).appendChild(script);
+	}
 }
 
 function syncTheme() {
-	const frame = document.querySelector<HTMLIFrameElement>("iframe.giscus-frame");
-	if (!frame?.contentWindow) return;
-	frame.contentWindow.postMessage(
-		{ giscus: { setConfig: { theme: currentTheme() } } },
-		GISCUS_ORIGIN,
-	);
+	window.REMARK42?.changeTheme?.(currentTheme());
 }
 
 if (commentConfig.enable) {

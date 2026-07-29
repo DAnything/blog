@@ -109,21 +109,13 @@ export const licenseConfig: LicenseConfig = {
 
 export const commentConfig: CommentConfig = {
 	enable: true,
-	giscus: {
-		// https://giscus.app で発行した値
-		repo: "DAnything/blog",
-		repoId: "R_kgDOHKXK0Q",
-		category: "General",
-		categoryId: "DIC_kwDOHKXK0c4COi9i",
-		mapping: "pathname",
-		strict: "0",
-		reactionsEnabled: "1",
-		emitMetadata: "0",
-		inputPosition: "bottom",
-		lang: "ja",
-		// Fuwari のライト/ダーク切替に連動させるテーマ
-		lightTheme: "light",
-		darkTheme: "transparent_dark",
+	remark42: {
+		host: "https://r.doany.io",
+		siteId: "doany",
+		locale: "ja",
+		simpleView: false,
+		showEmailSubscription: false,
+		showRssSubscription: true,
 	},
 };
 
