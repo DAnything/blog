@@ -3,6 +3,7 @@ import type {
 	ExpressiveCodeConfig,
 	LicenseConfig,
 	NavBarConfig,
+	NewsletterConfig,
 	ProfileConfig,
 	SiteConfig,
 } from "./types/config";
@@ -123,6 +124,17 @@ export const commentConfig: CommentConfig = {
 		lightTheme: "light",
 		darkTheme: "transparent_dark",
 	},
+};
+
+export const newsletterConfig: NewsletterConfig = {
+	// username を設定してから true にする
+	enable: false,
+	// https://buttondown.com/<username> の <username> 部分
+	username: "",
+	title: "Newsletter",
+	description: "新しい記事を公開したらお知らせします。",
+	placeholder: "your@email.com",
+	buttonLabel: "登録",
 };
 
 export const expressiveCodeConfig: ExpressiveCodeConfig = {

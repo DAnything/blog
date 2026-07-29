@@ -1,0 +1,70 @@
+---
+import { newsletterConfig } from "@/config";
+import WidgetLayout from "./WidgetLayout.astro";
+
+interface Props {
+	class?: string;
+	style?: string;
+}
+const className = Astro.props.class;
+const style = Astro.props.style;
+
+// buttondown の埋め込みフォーム。静的サイトから直接 POST できるため API キーは不要。
+const action = `https://buttondown.com/api/emails/embed-subscribe/${newsletterConfig.username}`;
+const profileUrl = `https://buttondown.com/${newsletterConfig.username}`;
+---
+{newsletterConfig.enable && newsletterConfig.username && (
+<WidgetLayout name={newsletterConfig.title} id="newsletter" class={className} style={style}>
+    <div class="text-sm text-black/75 dark:text-white/75 transition mb-3">
+        {newsletterConfig.description}
+    </div>
+    <form
+        action={action}
+        method="post"
+        target="popupwindow"
+        data-buttondown-url={profileUrl}
+        class="flex flex-col gap-2"
+    >
+        <label class="sr-only" for="bd-email">{newsletterConfig.placeholder}</label>
+        <input
+            type="email"
+            name="email"
+            id="bd-email"
+            required
+            placeholder={newsletterConfig.placeholder}
+            class="transition w-full rounded-lg h-9 px-3 text-sm
+                bg-black/5 dark:bg-white/10 text-black/75 dark:text-white/75
+                placeholder:text-black/35 dark:placeholder:text-white/35
+                focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+        />
+        <button type="submit" class="btn-regular rounded-lg h-9 text-sm font-bold">
+            {newsletterConfig.buttonLabel}
+        </button>
+    </form>
+</WidgetLayout>
+)}
+
+<script>
+// 送信時に buttondown の確認ページをポップアップで開く (公式の埋め込みフォームと同じ挙動)。
+// swup で再描画されるためページ表示ごとに張り直す。
+function bindNewsletterForm() {
+	const form = document.querySelector<HTMLFormElement>("form[data-buttondown-url]");
+	if (!form || form.dataset.bound === "true") return;
+	form.dataset.bound = "true";
+	form.addEventListener("submit", () => {
+		window.open(form.dataset.buttondownUrl, "popupwindow");
+	});
+}
+
+bindNewsletterForm();
+
+const setup = () => {
+	window.swup.hooks.on("page:view", bindNewsletterForm);
+};
+
+if (window?.swup?.hooks) {
+	setup();
+} else {
+	document.addEventListener("swup:enable", setup);
+}
+</script>

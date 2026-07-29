@@ -97,6 +97,16 @@ export type CommentConfig = {
 	giscus: GiscusConfig;
 };
 
+export type NewsletterConfig = {
+	enable: boolean;
+	/** buttondown のユーザー名 (https://buttondown.com/<username>) */
+	username: string;
+	title: string;
+	description: string;
+	placeholder: string;
+	buttonLabel: string;
+};
+
 export type LIGHT_DARK_MODE =
 	| typeof LIGHT_MODE
 	| typeof DARK_MODE
