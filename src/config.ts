@@ -1,6 +1,7 @@
 import type {
 	CommentConfig,
 	ExpressiveCodeConfig,
+	KofiConfig,
 	LicenseConfig,
 	NavBarConfig,
 	NewsletterConfig,
@@ -134,6 +135,15 @@ export const newsletterConfig: NewsletterConfig = {
 	description: "新しい記事を公開したらお知らせします。",
 	placeholder: "your@email.com",
 	buttonLabel: "登録",
+};
+
+export const kofiConfig: KofiConfig = {
+	enable: true,
+	// https://ko-fi.com/<username> の <username> 部分
+	username: "yui5m",
+	title: "Support",
+	description: "記事が役に立ったら応援していただけると励みになります。",
+	buttonLabel: "Ko-fi で支援する",
 };
 
 export const expressiveCodeConfig: ExpressiveCodeConfig = {

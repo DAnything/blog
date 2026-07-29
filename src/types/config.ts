@@ -97,6 +97,15 @@ export type CommentConfig = {
 	giscus: GiscusConfig;
 };
 
+export type KofiConfig = {
+	enable: boolean;
+	/** Ko-fi のユーザー名 (https://ko-fi.com/<username>) */
+	username: string;
+	title: string;
+	description: string;
+	buttonLabel: string;
+};
+
 export type NewsletterConfig = {
 	enable: boolean;
 	/** buttondown のユーザー名 (https://buttondown.com/<username>) */
