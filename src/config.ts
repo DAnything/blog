@@ -53,7 +53,7 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.About,
 		{
 			name: "GitHub",
-			url: "https://github.com/5ym/blog", // Internal links should not include the base path, as it is automatically added
+			url: "https://github.com/DAnything/blog", // Internal links should not include the base path, as it is automatically added
 			external: true, // Show an external link icon and will open in a new tab
 		},
 	],
@@ -109,7 +109,7 @@ export const commentConfig: CommentConfig = {
 	enable: true,
 	giscus: {
 		// https://giscus.app で発行した値
-		repo: "5ym/blog",
+		repo: "DAnything/blog",
 		repoId: "R_kgDOHKXK0Q",
 		category: "General",
 		categoryId: "DIC_kwDOHKXK0c4COi9i",

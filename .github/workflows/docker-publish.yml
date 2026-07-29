@@ -7,7 +7,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-and-push:
@@ -17,6 +16,10 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
+
+      # コンテナのリポジトリ名は小文字でなければならないため変換する
+      - name: Resolve image name
+        run: echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
 
       - uses: docker/setup-buildx-action@v3
 
@@ -48,6 +51,3 @@ jobs:
             git commit -m "chore: update blog image to ${GITHUB_SHA}"
             git push
           fi
-        env:
-          REGISTRY: ${{ env.REGISTRY }}
-          IMAGE_NAME: ${{ env.IMAGE_NAME }}
