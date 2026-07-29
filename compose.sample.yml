@@ -1,0 +1,11 @@
+services:
+  blog:
+    build:
+      target: builder
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: pnpm dev --host
+    ports:
+      - 4321:4321
+    tty: true

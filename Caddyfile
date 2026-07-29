@@ -1,0 +1,50 @@
+{
+	# TLS は Traefik が終端するため、転送元ヘッダを信頼する
+	servers {
+		trusted_proxies static private_ranges
+	}
+}
+
+:80 {
+	root * /srv
+	encode zstd gzip
+
+	# --- 旧 Next.js 版 URL からの 301 ---
+	redir /feed.xml /rss.xml permanent
+	redir /projects /about/ permanent
+	redir /projects/ /about/ permanent
+	redir /tags /archive/ permanent
+	redir /tags/ /archive/ permanent
+
+	# 記事一覧はトップページ。旧 /blog と旧ページネーションはそちらへ寄せる
+	redir /blog / permanent
+	redir /blog/ / permanent
+
+	@blogPage path_regexp blogPage ^/blog/page/([0-9]+)/?$
+	redir @blogPage /{re.blogPage.1}/ permanent
+
+	@blogPost path_regexp blogPost ^/blog/(.+?)/?$
+	redir @blogPost /posts/{re.blogPost.1}/ permanent
+
+	@tag path_regexp tag ^/tags/(.+?)/?$
+	redir @tag /archive/?tag={re.tag.1} permanent
+
+	# --- キャッシュ ---
+	# ハッシュ付きのビルド成果物と検索インデックスは長期キャッシュ
+	@immutable path /_astro/* /pagefind/*
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+
+	@static path /static/*
+	header @static Cache-Control "public, max-age=604800"
+
+	# HTML は都度検証させる
+	@html not path /_astro/* /pagefind/* /static/*
+	header @html Cache-Control "public, max-age=0, must-revalidate"
+
+	file_server
+
+	handle_errors {
+		rewrite * /404.html
+		file_server
+	}
+}

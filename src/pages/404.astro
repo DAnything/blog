@@ -1,0 +1,12 @@
+---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+---
+<MainGridLayout title="404" description="404 Not Found">
+    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+        <div class="card-base z-10 px-9 py-6 relative w-full flex flex-col items-center justify-center min-h-[20rem] gap-4">
+            <div class="text-9xl font-bold text-black/10 dark:text-white/10 transition">404</div>
+            <div class="text-black/75 dark:text-white/75 transition">ページが見つかりませんでした</div>
+            <a href="/" class="btn-regular rounded-lg px-4 py-2 mt-2">トップへ戻る</a>
+        </div>
+    </div>
+</MainGridLayout>

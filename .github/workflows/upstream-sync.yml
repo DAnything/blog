@@ -1,0 +1,123 @@
+name: Upstream Sync
+
+# 上流 (saicaca/fuwari) の変更を月次で取り込む PR を作る。
+# マージが衝突した場合は PR を作らず Issue で通知する。
+on:
+  schedule:
+    # 毎月 1 日 00:00 UTC (09:00 JST)
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+
+env:
+  UPSTREAM_REPO: https://github.com/saicaca/fuwari.git
+  UPSTREAM_BRANCH: main
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch upstream
+        run: |
+          git remote add upstream "$UPSTREAM_REPO"
+          git fetch upstream "$UPSTREAM_BRANCH"
+
+      - name: Check for new upstream commits
+        id: check
+        run: |
+          if git merge-base --is-ancestor "upstream/${UPSTREAM_BRANCH}" HEAD; then
+            echo "取り込み済みの変更しかありません。"
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse --short "upstream/${UPSTREAM_BRANCH}")" >> "$GITHUB_OUTPUT"
+
+      - name: Attempt merge
+        id: merge
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "upstream-sync/${{ steps.check.outputs.sha }}"
+
+          if git merge --no-edit "upstream/${UPSTREAM_BRANCH}"; then
+            echo "conflict=false" >> "$GITHUB_OUTPUT"
+          else
+            # 衝突ファイルを控えてからマージを取り消す
+            git diff --name-only --diff-filter=U > /tmp/conflicts.txt
+            git merge --abort
+            echo "conflict=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build commit summary
+        id: summary
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          {
+            echo 'body<<SUMMARY_EOF'
+            echo "上流 [saicaca/fuwari](https://github.com/saicaca/fuwari) に新しいコミットがあります。"
+            echo
+            echo "### 上流のコミット"
+            echo
+            git log --no-merges --pretty=format:'- [`%h`](https://github.com/saicaca/fuwari/commit/%H) %s' \
+              "HEAD..upstream/${UPSTREAM_BRANCH}" | head -50
+            echo
+            echo 'SUMMARY_EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create pull request
+        if: steps.check.outputs.has_changes == 'true' && steps.merge.outputs.conflict == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: upstream-sync/${{ steps.check.outputs.sha }}
+        run: |
+          if [ -n "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[].number')" ]; then
+            echo "既に PR が開いています。"
+            exit 0
+          fi
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "chore: upstream (fuwari) の変更を取り込む (${{ steps.check.outputs.sha }})" \
+            --body "${{ steps.summary.outputs.body }}
+
+          自動マージは衝突なく完了しました。ビルドを確認してからマージしてください。" \
+            --head "$BRANCH" \
+            --base "${{ github.event.repository.default_branch }}"
+
+      - name: Open issue on conflict
+        if: steps.check.outputs.has_changes == 'true' && steps.merge.outputs.conflict == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: "upstream (fuwari) のマージが衝突しました (${{ steps.check.outputs.sha }})"
+        run: |
+          if [ -n "$(gh issue list --search "\"$TITLE\" in:title" --state open --json number --jq '.[].number')" ]; then
+            echo "既に Issue が開いています。"
+            exit 0
+          fi
+          gh issue create \
+            --title "$TITLE" \
+            --body "${{ steps.summary.outputs.body }}
+
+          ### 衝突したファイル
+
+          \`\`\`
+          $(cat /tmp/conflicts.txt)
+          \`\`\`
+
+          自動マージできなかったため手動で対応してください。
+
+          \`\`\`shell
+          git remote add upstream https://github.com/saicaca/fuwari.git
+          git fetch upstream main
+          git checkout -b upstream-sync/${{ steps.check.outputs.sha }}
+          git merge upstream/main
+          \`\`\`"
