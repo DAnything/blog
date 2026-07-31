@@ -27,38 +27,38 @@
 
 ## Projects
 
-### [Smart-QR-Payment](https://g.doany.io/5ym/smart-qr-payment)
+### [cheaper-gs-map](https://github.com/5ym/cheaper-gs-map)
 
-催事等で使える事前注文と店頭受け取りそしてセルフレジ機能をもったウェブアプリをDjangoとvueで作成しました。
+全国のガソリン価格ランキングから各都道府県の上位10店舗を集めて、衛星写真の地図上に表示する静的サイトです。GitHub Actions で定期的に収集し、GitHub Pages で配信しています。
+
+### [cash-tabelog](https://github.com/5ym/cash-tabelog)
+
+食べログに掲載されている店舗のうち、どれだけがカード決済に対応しているかを集計するツールです。決済まわりの仕事をしていた頃の関心から作りました。
+
+### [zero-owner](https://github.com/5ym/zero-owner)
+
+[zero.estate](https://zero.estate/) に掲載された0円物件を毎日収集し、衛星写真の地図上に表示する静的サイトです。
+
+### [naltec-reservation-grabber](https://github.com/5ym/naltec-reservation-grabber)
+
+検査レーンの予約を自動で取得するツールです。予約枠が一部事業者に寡占されている状況への対抗として、個人利用の範囲で作りました。
+
+### [fixeed](https://github.com/5ym/fixeed)
+
+goonews.jp の RSS は日付フィールドが壊れているため、定期的に取得して W3CDTF に直したうえで再配信しています。タイムゾーンの後ろに Unix タイムスタンプが連結されていたり、`17時39分T+09:00` のように日本語の相対日付が ISO8601 のテンプレートに埋まっていたりします。
 
 ### [𝕏ool](https://x.doany.io/)
 
-𝕏 Oauth2.0を利用しWebhookでポストを作成できるウェブアプリを作成しました。Svelte,SQLiteを利用しSSRで構築してあります。
+𝕏 の OAuth 2.0 を利用し、Webhook からポストを作成できるウェブアプリです。SvelteKit と SQLite で SSR 構成にしてあります。
 
-### [SmartEncounter](https://github.com/5ym/smaen)
+### [Smart-QR-Payment](https://github.com/5ym/smart-qr-payment)
 
-Yahoo Japan主催のHack Day 2019内ハッカソンにて自分他3名にてアプリケーションの作成を行いました。
+催事等で使える、事前注文と店頭受け取り、そしてセルフレジ機能をもったウェブアプリです。Django と Vue で作成しました。
 
-### [QRcode Entry System](https://github.com/5ym/qes)
+### [k3s-gitops](https://github.com/DAnything/k3s-gitops)
 
-laravelの勉強用にQRcodeで入場支払い管理できる簡易的なものを作成してみました。
+k3s クラスタで動かしている各アプリのマニフェスト集です。AdGuard Home、ERPNext、Opengist、Portainer、VPN などを ArgoCD で同期しています。
 
-### [easy-order](https://github.com/5ym/easy-order)
+### worklog
 
-小規模な販売で店頭在庫切れ時に店頭で注文を受けて後日渡しをシステム化したもの。
-
-### [Kiosk-Webview-Android](https://github.com/5ym/Kiosk-Webview-Android)
-
-ProfileOwner, DeviceOwnerを使用しないkioskアプリを作成いたしました。
-
-### [Paper-Detection](https://github.com/5ym/Paper-Detection)
-
-OpenCVで紙の縁を検出するプログラムを作成しました。notebookを起動するソースコードも付属しております。
-
-### [m5-temp](https://github.com/5ym/m5-temp)
-
-m5 stackを使用してウェブフロントで動く温度計を作成しました。
-
-### [jQuery-Slider](https://github.com/5ym/jquery-slider)
-
-jQueryでよりネイティブな操作感に近いスライダーを作成いたしました。
+Slack / GitHub / GitLab / Backlog / Jira / OpenProject / Redmine の API ログを横断し、日別の稼働開始・終了・休憩・実働を推定するツールです。常駐エージェントを入れる必要がなく、過去の月に遡って稼働表を作れるのが特徴です。SvelteKit と SQLite で開発中で、現在はまだ非公開です。
