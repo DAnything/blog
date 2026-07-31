@@ -59,9 +59,27 @@ function toTopics(tags) {
 	return list.map((t) => String(t).replace(/\s+/g, "")).slice(0, 5);
 }
 
+// GitHub 形式のアラートは Zenn では素の引用になってしまうため、
+// Zenn のメッセージ記法に変換する。
+function convertAdmonitions(body) {
+	return body.replace(
+		/^> \[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\r?\n((?:>.*(?:\r?\n|$))+)/gm,
+		(_, kind, rest) => {
+			const inner = rest
+				.split(/\r?\n/)
+				.filter((l) => l.startsWith(">"))
+				.map((l) => l.replace(/^>\s?/, ""))
+				.join("\n")
+				.trimEnd();
+			const alert = kind === "WARNING" || kind === "CAUTION" ? " alert" : "";
+			return `:::message${alert}\n${inner}\n:::\n`;
+		},
+	);
+}
+
 function convertBody(body, slug) {
 	return (
-		body
+		convertAdmonitions(body)
 			// 画像は doany.io 上の絶対パスなので、Zenn から見えるよう URL にする
 			.replace(/\]\(\/static\//g, `](${SITE_URL}/static/`)
 			// Astro のディレクティブは Zenn のカード記法に置き換える
