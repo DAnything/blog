@@ -3,7 +3,8 @@ title: "postfixの導入とOP25Bの回避"
 emoji: "📝"
 type: tech
 topics: ["Ubuntu","postfix","OP25B"]
-published: false
+published: true
+published_at: 2018-08-01
 ---
 
 

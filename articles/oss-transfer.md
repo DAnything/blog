@@ -3,7 +3,8 @@ title: "OSSで移転登録してみた"
 emoji: "📝"
 type: tech
 topics: ["車","OSS","行政"]
-published: false
+published: true
+published_at: 2024-01-01
 ---
 
 

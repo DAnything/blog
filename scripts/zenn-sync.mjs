@@ -6,8 +6,11 @@
 // 変換して出力する。articles/ は全体が生成物なので、対応する記事がなくなった
 // ファイルは削除される。手で置いたファイルは残らないので注意。
 //
+// 公開日は元記事の published をそのまま published_at に渡す。Zenn 側で
+// 「一度設定すると変更できない」項目なので、公開前に正しい値を入れておくこと。
+//
 // Astro 側のフロントマターで挙動を上書きできる:
-//   zennPublished: true   Zenn 上で公開する (既定は false = 下書き)
+//   zennPublished: false  Zenn 上では下書きに留める (既定は公開)
 //   zennSlug: xxxxxxxxxxx スラッグを明示する (12〜50文字)
 //   zennEmoji: "🚗"        アイキャッチの絵文字 (既定は 📝)
 //   zennType: idea        tech (既定) または idea
@@ -94,7 +97,7 @@ for (const name of fs.readdirSync(POSTS_DIR).sort()) {
 	}
 
 	const zennSlug = fm.zennSlug || toZennSlug(slug);
-	const isPublished = fm.zennPublished === "true";
+	const isPublished = fm.zennPublished !== "false";
 
 	const front = [
 		"---",
@@ -103,12 +106,16 @@ for (const name of fs.readdirSync(POSTS_DIR).sort()) {
 		`type: ${fm.zennType === "idea" ? "idea" : "tech"}`,
 		`topics: ${JSON.stringify(toTopics(fm.tags))}`,
 		`published: ${isPublished}`,
-		"---",
-	].join("\n");
+	];
+	// 移行なので元記事の公開日を引き継ぐ。Zenn 側は後から変更できない
+	if (/^\d{4}-\d{2}-\d{2}$/.test(fm.published || "")) {
+		front.push(`published_at: ${fm.published}`);
+	}
+	front.push("---");
 
 	fs.writeFileSync(
 		path.join(OUT_DIR, `${zennSlug}.md`),
-		`${front}\n\n${convertBody(body, slug)}`,
+		`${front.join("\n")}\n\n${convertBody(body, slug)}`,
 	);
 	generated.add(`${zennSlug}.md`);
 

@@ -3,7 +3,8 @@ title: "dockerでzabbixを導入してみる"
 emoji: "📝"
 type: tech
 topics: ["Docker","docker-compose","zabbix"]
-published: false
+published: true
+published_at: 2019-04-24
 ---
 
 

@@ -3,7 +3,8 @@ title: "WordPressをマルチサイト化してgitを導入してみた"
 emoji: "📝"
 type: tech
 topics: ["tech","Git","GitHub","WordPress"]
-published: false
+published: true
+published_at: 2018-08-02
 ---
 
 

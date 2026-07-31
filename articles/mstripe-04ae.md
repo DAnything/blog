@@ -3,7 +3,8 @@ title: "磁気ストライプの検証"
 emoji: "📝"
 type: tech
 topics: ["cresec","クレジットカード"]
-published: false
+published: true
+published_at: 2018-08-26
 ---
 
 

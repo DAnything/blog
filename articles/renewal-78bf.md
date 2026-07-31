@@ -3,7 +3,8 @@ title: "サイトを Astro + k3s で作り直した話"
 emoji: "📝"
 type: tech
 topics: ["Astro","Caddy","k3s","Docker","GitHubActions"]
-published: false
+published: true
+published_at: 2026-07-29
 ---
 
 

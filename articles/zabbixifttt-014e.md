@@ -3,7 +3,8 @@ title: "ZabbixのアラートをIFTTTで通知する"
 emoji: "📝"
 type: tech
 topics: ["zabbix","ifttt"]
-published: false
+published: true
+published_at: 2019-09-17
 ---
 
 

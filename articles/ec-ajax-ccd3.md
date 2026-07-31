@@ -3,7 +3,8 @@ title: "EC-CUBE3系に簡単なAjax用エンドポイントを作成してみる
 emoji: "📝"
 type: tech
 topics: ["tech","EC-CUBE","PHP","Silex","Symfony"]
-published: false
+published: true
+published_at: 2018-12-03
 ---
 
 

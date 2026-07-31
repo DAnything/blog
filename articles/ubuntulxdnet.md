@@ -3,7 +3,8 @@ title: "ubuntuのlxdが仮想ブリッジからネットワークにつながら
 emoji: "📝"
 type: tech
 topics: ["lxc","lxd","netplan"]
-published: false
+published: true
+published_at: 2019-09-20
 ---
 
 

@@ -3,7 +3,8 @@ title: "クレジットカード番号の検証"
 emoji: "📝"
 type: tech
 topics: ["cresec","クレジットカード"]
-published: false
+published: true
+published_at: 2018-07-27
 ---
 
 

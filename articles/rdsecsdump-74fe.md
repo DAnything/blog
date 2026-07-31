@@ -3,7 +3,8 @@ title: "RDS+ECSで定期的にダンプをS3に保存してみる"
 emoji: "📝"
 type: tech
 topics: ["S3","RDS","Docker","ECS","BitbucketPipelines"]
-published: false
+published: true
+published_at: 2019-10-31
 ---
 
 

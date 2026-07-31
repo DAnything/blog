@@ -3,7 +3,8 @@ title: "ステーションワゴンを貨物登録して税金を安くしてみ
 emoji: "📝"
 type: tech
 topics: ["車","貨物登録","行政"]
-published: false
+published: true
+published_at: 2025-08-06
 ---
 
 
