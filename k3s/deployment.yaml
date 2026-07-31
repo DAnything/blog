@@ -5,6 +5,12 @@ metadata:
   namespace: blog
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # 新しい Pod が Ready になってから古い Pod を落とす
+      maxSurge: 1
+      maxUnavailable: 0
   selector:
     matchLabels:
       app: blog
