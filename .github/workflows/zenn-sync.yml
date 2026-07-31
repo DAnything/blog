@@ -1,0 +1,52 @@
+name: Zenn Sync
+
+# Zenn はリポジトリ直下の articles/*.md しか読まないため、
+# src/content/posts の記事を変換して articles/ に生成する。
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/content/posts/**.md"
+      - "scripts/zenn-sync.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# docker-publish も main へ commit するため、同時実行を避ける
+concurrency:
+  group: zenn-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - run: node scripts/zenn-sync.mjs
+
+      # Pushes with the default GITHUB_TOKEN don't trigger new workflow runs,
+      # so this commit does not re-trigger this workflow.
+      - name: Commit generated articles
+        run: |
+          git add -A articles
+          if git diff --cached --quiet; then
+            echo "変更なし"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: sync Zenn articles"
+          # docker-publish が同じ push で main を進めることがあるため、弾かれたら rebase して retry
+          for _ in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            git pull --rebase origin main
+          done
+          exit 1

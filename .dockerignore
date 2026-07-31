@@ -12,6 +12,7 @@ dist
 
 # infra (イメージのビルドには不要)
 k3s
+articles
 compose.yml
 compose.sample.yml
 
