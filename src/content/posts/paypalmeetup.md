@@ -1,5 +1,6 @@
 ---
 title: "PayPalのClient Integrationの簡易的な実装方法"
+zennEmoji: "💰"
 published: 2018-09-26
 description: "PayPalのClient Integrationの簡易的な実装方法"
 image: ""

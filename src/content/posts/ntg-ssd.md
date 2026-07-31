@@ -1,5 +1,6 @@
 ---
 title: "Mercedes NTG ATAロック解除メモ"
+zennEmoji: "🔓"
 published: 2024-05-25
 description: "NTG SSD化における私的メモ"
 image: ""

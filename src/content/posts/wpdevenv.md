@@ -1,5 +1,6 @@
 ---
 title: "ubuntuでhhvm+nginx+mysqlでwordpress環境の構築"
+zennEmoji: "🧰"
 published: 2018-07-28
 description: "ubuntuでhhvm+nginx+mysqlでwordpress環境の構築"
 image: ""

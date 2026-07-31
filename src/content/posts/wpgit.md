@@ -1,5 +1,6 @@
 ---
 title: "WordPressをマルチサイト化してgitを導入してみた"
+zennEmoji: "🔀"
 published: 2018-08-02
 description: "WordPressをマルチサイト化してgitを導入してみた"
 image: ""

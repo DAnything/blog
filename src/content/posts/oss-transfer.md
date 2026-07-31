@@ -1,5 +1,6 @@
 ---
 title: "OSSで移転登録してみた"
+zennEmoji: "📄"
 published: 2024-01-01
 description: "OSSで移転登録をしてみたのでその方法を解説します。"
 image: ""

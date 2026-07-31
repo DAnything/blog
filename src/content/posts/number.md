@@ -1,5 +1,6 @@
 ---
 title: "クレジットカード番号の検証"
+zennEmoji: "💳"
 published: 2018-07-27
 description: "クレジットカード番号の検証"
 image: ""

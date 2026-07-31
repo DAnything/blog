@@ -1,6 +1,6 @@
 ---
 title: "ubuntuのlxdが仮想ブリッジからネットワークにつながらない"
-emoji: "📝"
+emoji: "🌉"
 type: tech
 topics: ["lxc","lxd","netplan"]
 published: true

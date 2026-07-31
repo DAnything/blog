@@ -1,5 +1,6 @@
 ---
 title: "postfixの導入とOP25Bの回避"
+zennEmoji: "📮"
 published: 2018-08-01
 description: "postfixの導入とOP25Bの回避"
 image: ""

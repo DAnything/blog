@@ -1,6 +1,6 @@
 ---
 title: "ステーションワゴンを貨物登録して税金を安くしてみた"
-emoji: "📝"
+emoji: "🚚"
 type: tech
 topics: ["車","貨物登録","行政"]
 published: true

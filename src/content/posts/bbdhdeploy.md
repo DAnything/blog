@@ -1,5 +1,6 @@
 ---
 title: "docker-hubを利用して簡易的なウェブアプリデプロイ環境を構築する"
+zennEmoji: "🚢"
 published: 2019-04-17
 description: "docker-hubを利用して簡易的なウェブアプリデプロイ環境を構築する"
 image: ""

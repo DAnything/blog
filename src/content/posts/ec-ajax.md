@@ -1,5 +1,6 @@
 ---
 title: "EC-CUBE3系に簡単なAjax用エンドポイントを作成してみる"
+zennEmoji: "🛒"
 published: 2018-12-03
 description: "EC-CUBE3系に簡単なAjax用エンドポイントを作成してみる"
 image: ""

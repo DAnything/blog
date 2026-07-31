@@ -1,6 +1,6 @@
 ---
 title: "hhvm環境でlaravel5.7のプロジェクトを作成しようとしたら苦労した話"
-emoji: "📝"
+emoji: "🔺"
 type: tech
 topics: ["HHVM","laravel","PHP"]
 published: true

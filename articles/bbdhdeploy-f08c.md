@@ -1,6 +1,6 @@
 ---
 title: "docker-hubを利用して簡易的なウェブアプリデプロイ環境を構築する"
-emoji: "📝"
+emoji: "🚢"
 type: tech
 topics: ["Docker","docker-compose","DockerHub","Bitbucket"]
 published: true

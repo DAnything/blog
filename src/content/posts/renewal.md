@@ -1,5 +1,6 @@
 ---
 title: "サイトを Astro + k3s で作り直した話"
+zennEmoji: "🧱"
 published: 2026-07-29
 description: "Next.js で動かしていたこのブログを Astro 製テーマ Fuwari に全面移行しました。ビルドから配信、コメント、購読まで、現在の構成をひととおり紹介します。"
 image: ""

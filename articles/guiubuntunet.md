@@ -1,6 +1,6 @@
 ---
 title: "GUIを入れたubuntuでネットワークが繋がらない"
-emoji: "📝"
+emoji: "💻"
 type: tech
 topics: ["Ubuntu","networkmanager","netplan"]
 published: true

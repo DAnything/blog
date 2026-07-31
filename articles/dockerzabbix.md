@@ -1,6 +1,6 @@
 ---
 title: "dockerでzabbixを導入してみる"
-emoji: "📝"
+emoji: "📊"
 type: tech
 topics: ["Docker","docker-compose","zabbix"]
 published: true

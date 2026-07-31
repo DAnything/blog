@@ -1,5 +1,6 @@
 ---
 title: "hhvm環境でlaravel5.7のプロジェクトを作成しようとしたら苦労した話"
+zennEmoji: "🔺"
 published: 2018-09-27
 description: "hhvm環境でlaravel5.7のプロジェクトを作成しようとしたら苦労した話"
 image: ""

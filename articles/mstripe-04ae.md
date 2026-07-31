@@ -1,6 +1,6 @@
 ---
 title: "磁気ストライプの検証"
-emoji: "📝"
+emoji: "🧲"
 type: tech
 topics: ["cresec","クレジットカード"]
 published: true

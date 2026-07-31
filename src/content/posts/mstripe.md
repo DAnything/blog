@@ -1,5 +1,6 @@
 ---
 title: "磁気ストライプの検証"
+zennEmoji: "🧲"
 published: 2018-08-26
 description: "磁気ストライプの検証"
 image: ""

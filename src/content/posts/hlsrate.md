@@ -1,5 +1,6 @@
 ---
 title: "hls.jsのレベル変更で躓いた件"
+zennEmoji: "🎬"
 published: 2018-12-18
 description: "hls.jsのレベル変更で躓いた件"
 image: ""

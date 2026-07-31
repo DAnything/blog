@@ -1,6 +1,6 @@
 ---
 title: "ZabbixのアラートをIFTTTで通知する"
-emoji: "📝"
+emoji: "🔔"
 type: tech
 topics: ["zabbix","ifttt"]
 published: true

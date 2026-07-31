@@ -1,5 +1,6 @@
 ---
 title: "ZabbixのアラートをIFTTTで通知する"
+zennEmoji: "🔔"
 published: 2019-09-17
 description: "ZabbixのアラートをIFTTTで通知する"
 image: ""

@@ -1,5 +1,6 @@
 ---
 title: "GUIを入れたubuntuでネットワークが繋がらない"
+zennEmoji: "💻"
 published: 2019-01-11
 description: "GUIを入れたubuntuでネットワークが繋がらない"
 image: ""

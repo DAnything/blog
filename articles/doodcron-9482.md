@@ -1,6 +1,6 @@
 ---
 title: "DooDでcronをコンテナで分離してみる&swarm対応"
-emoji: "📝"
+emoji: "⏰"
 type: tech
 topics: ["cron","Docker","docker-compose","swarm"]
 published: true

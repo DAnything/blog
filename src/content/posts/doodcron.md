@@ -1,5 +1,6 @@
 ---
 title: "DooDでcronをコンテナで分離してみる&swarm対応"
+zennEmoji: "⏰"
 published: 2019-09-24
 description: "DooDでcronをコンテナで分離してみる&swarm対応"
 image: ""

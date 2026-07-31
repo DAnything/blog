@@ -1,5 +1,6 @@
 ---
 title: "RDS+ECSで定期的にダンプをS3に保存してみる"
+zennEmoji: "🪣"
 published: 2019-10-31
 description: "RDS+ECSで定期的にダンプをS3に保存してみる"
 image: ""

@@ -1,6 +1,6 @@
 ---
 title: "ubuntuでhhvm+nginx+mysqlでwordpress環境の構築"
-emoji: "📝"
+emoji: "🧰"
 type: tech
 topics: ["Ubuntu","WordPress","環境構築"]
 published: true

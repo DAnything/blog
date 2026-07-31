@@ -1,5 +1,6 @@
 ---
 title: "ubuntuのlxdが仮想ブリッジからネットワークにつながらない"
+zennEmoji: "🌉"
 published: 2019-09-20
 description: "ubuntuのlxdが仮想ブリッジからネットワークにつながらない"
 image: ""

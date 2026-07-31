@@ -1,6 +1,6 @@
 ---
 title: "アウディコーディングメモ"
-emoji: "📝"
+emoji: "🚗"
 type: tech
 topics: ["車"]
 published: true

@@ -1,6 +1,6 @@
 ---
 title: "postfixの導入とOP25Bの回避"
-emoji: "📝"
+emoji: "📮"
 type: tech
 topics: ["Ubuntu","postfix","OP25B"]
 published: true

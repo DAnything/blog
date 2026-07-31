@@ -1,5 +1,6 @@
 ---
 title: "dockerでzabbixを導入してみる"
+zennEmoji: "📊"
 published: 2019-04-24
 description: "dockerでzabbixを導入してみる"
 image: ""

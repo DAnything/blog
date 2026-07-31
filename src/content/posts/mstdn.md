@@ -1,5 +1,6 @@
 ---
 title: "ubuntuで超簡単にmastodonインスタンスを作成する方法(docker)"
+zennEmoji: "🐘"
 published: 2018-08-17
 description: "ubuntuで超簡単にmastodonインスタンスを作成する方法(docker)"
 image: ""

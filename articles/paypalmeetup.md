@@ -1,6 +1,6 @@
 ---
 title: "PayPalのClient Integrationの簡易的な実装方法"
-emoji: "📝"
+emoji: "💰"
 type: tech
 topics: ["tech","PayPal","決済"]
 published: true

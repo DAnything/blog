@@ -1,6 +1,6 @@
 ---
 title: "OSSで移転登録してみた"
-emoji: "📝"
+emoji: "📄"
 type: tech
 topics: ["車","OSS","行政"]
 published: true

@@ -1,6 +1,6 @@
 ---
 title: "hls.jsのレベル変更で躓いた件"
-emoji: "📝"
+emoji: "🎬"
 type: tech
 topics: ["tech"]
 published: true

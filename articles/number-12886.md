@@ -1,6 +1,6 @@
 ---
 title: "クレジットカード番号の検証"
-emoji: "📝"
+emoji: "💳"
 type: tech
 topics: ["cresec","クレジットカード"]
 published: true
