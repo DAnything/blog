@@ -19,8 +19,16 @@
         }
     }
 
+    /* main.css の @layer components にある .link / .expand-animation を
+       @apply で参照すると、このファイルが別の PostCSS パスで処理された場合に
+       「The `link` class does not exist」でビルドが落ちる。処理順に依存して
+       再現が不安定なため、素の Tailwind ユーティリティに展開してある。
+       main.css 側の .link を変更したときはここも合わせること。 */
     a:not(.no-styling) {
-        @apply relative bg-none link font-medium text-[var(--primary)]
+        @apply relative bg-none font-medium text-[var(--primary)]
+        transition rounded-md p-1 -m-1
+        before:ease-out before:transition active:bg-none hover:before:bg-[var(--btn-plain-bg-hover)] active:before:bg-[var(--btn-plain-bg-active)] z-0
+        before:absolute before:rounded-[inherit] before:inset-0 before:scale-[0.85] hover:before:scale-100 before:-z-10
         underline decoration-[var(--link-underline)] decoration-1 decoration-dashed underline-offset-4;
         box-decoration-break: clone;
         -webkit-box-decoration-break: clone;
