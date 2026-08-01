@@ -54,11 +54,12 @@ body .atk-layer-wrap {
 	font-family: inherit;
 }
 
-/* 入力欄まわり。既定は直角に近いので、サイトの角丸に寄せる */
+/* 入力欄まわり。既定は直角に近いので、サイトの角丸に寄せる。
+   背景は敷かない。敷くと送信ボタンと同色になって沈む。 */
 #artalk.artalk .atk-main-editor {
 	border-radius: 0.75rem;
-	border-color: var(--line-divider);
-	background: var(--btn-regular-bg);
+	border: 1px solid var(--line-divider);
+	background: transparent;
 }
 
 #artalk.artalk .atk-textarea,
@@ -103,4 +104,142 @@ body .atk-layer-wrap {
 #artalk.artalk .atk-list-header,
 #artalk.artalk .atk-comment-wrap {
 	border-color: var(--line-divider);
+}
+
+/* --- マークダウン本文 ---
+ * Artalk は .atk-content の見出し・リスト・引用などに CSS を持たず、
+ * ブラウザ既定のスタイルに依存している。Tailwind の preflight がそれを
+ * すべて打ち消すため、そのままだと見出しもリストも素の文字列に見える。
+ * ここで最低限の組版を補う。コメント欄なので本文より控えめな倍率にする。
+ */
+#artalk.artalk .atk-content,
+#artalk.artalk .atk-editor-plug-preview {
+	line-height: 1.75;
+}
+
+#artalk.artalk .atk-content > :first-child,
+#artalk.artalk .atk-editor-plug-preview > :first-child {
+	margin-top: 0;
+}
+
+#artalk.artalk .atk-content > :last-child,
+#artalk.artalk .atk-editor-plug-preview > :last-child {
+	margin-bottom: 0;
+}
+
+#artalk.artalk .atk-content :is(h1, h2, h3, h4, h5, h6),
+#artalk.artalk .atk-editor-plug-preview :is(h1, h2, h3, h4, h5, h6) {
+	font-weight: 700;
+	line-height: 1.4;
+	margin: 1em 0 0.5em;
+	color: var(--at-color-deep);
+}
+
+#artalk.artalk .atk-content h1,
+#artalk.artalk .atk-editor-plug-preview h1 {
+	font-size: 1.35em;
+}
+#artalk.artalk .atk-content h2,
+#artalk.artalk .atk-editor-plug-preview h2 {
+	font-size: 1.2em;
+}
+#artalk.artalk .atk-content h3,
+#artalk.artalk .atk-editor-plug-preview h3 {
+	font-size: 1.1em;
+}
+
+#artalk.artalk .atk-content p,
+#artalk.artalk .atk-editor-plug-preview p {
+	margin: 0.5em 0;
+}
+
+#artalk.artalk .atk-content :is(ul, ol),
+#artalk.artalk .atk-editor-plug-preview :is(ul, ol) {
+	margin: 0.5em 0;
+	padding-left: 1.5em;
+}
+
+#artalk.artalk .atk-content ul,
+#artalk.artalk .atk-editor-plug-preview ul {
+	list-style: disc outside;
+}
+
+#artalk.artalk .atk-content ol,
+#artalk.artalk .atk-editor-plug-preview ol {
+	list-style: decimal outside;
+}
+
+#artalk.artalk .atk-content ul ul,
+#artalk.artalk .atk-editor-plug-preview ul ul {
+	list-style-type: circle;
+}
+
+#artalk.artalk .atk-content li,
+#artalk.artalk .atk-editor-plug-preview li {
+	margin: 0.25em 0;
+}
+
+#artalk.artalk .atk-content blockquote,
+#artalk.artalk .atk-editor-plug-preview blockquote {
+	margin: 0.75em 0;
+	padding-left: 1em;
+	border-left: 3px solid var(--line-divider);
+	color: var(--at-color-sub);
+}
+
+#artalk.artalk .atk-content :not(pre) > code,
+#artalk.artalk .atk-editor-plug-preview :not(pre) > code {
+	padding: 0.15em 0.4em;
+	border-radius: 0.25rem;
+	font-size: 0.9em;
+	background: var(--inline-code-bg);
+	color: var(--inline-code-color);
+}
+
+#artalk.artalk .atk-content pre,
+#artalk.artalk .atk-editor-plug-preview pre {
+	margin: 0.75em 0;
+	padding: 0.75em 1em;
+	border-radius: 0.5rem;
+	overflow-x: auto;
+	background: var(--codeblock-bg);
+	color: oklch(0.92 0.01 var(--hue));
+}
+
+#artalk.artalk .atk-content pre code,
+#artalk.artalk .atk-editor-plug-preview pre code {
+	padding: 0;
+	background: transparent;
+	color: inherit;
+}
+
+#artalk.artalk .atk-content hr,
+#artalk.artalk .atk-editor-plug-preview hr {
+	margin: 1em 0;
+	border: 0;
+	border-top: 1px solid var(--line-divider);
+}
+
+#artalk.artalk .atk-content table,
+#artalk.artalk .atk-editor-plug-preview table {
+	margin: 0.75em 0;
+	border-collapse: collapse;
+}
+
+#artalk.artalk .atk-content :is(th, td),
+#artalk.artalk .atk-editor-plug-preview :is(th, td) {
+	padding: 0.4em 0.7em;
+	border: 1px solid var(--line-divider);
+}
+
+#artalk.artalk .atk-content th,
+#artalk.artalk .atk-editor-plug-preview th {
+	font-weight: 700;
+	background: var(--btn-regular-bg);
+}
+
+#artalk.artalk .atk-content img,
+#artalk.artalk .atk-editor-plug-preview img {
+	max-width: 100%;
+	border-radius: 0.5rem;
 }

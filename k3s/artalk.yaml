@@ -56,6 +56,10 @@ spec:
             # Traefik と Cloudflare を経由するため、実 IP はヘッダから取る
             - name: ATK_HTTP_PROXY_HEADER
               value: "X-Forwarded-For"
+            # 既定の絵文字定義は中国語のグループ名で、外部 CDN (jsdelivr) にも
+            # 依存する。日本語の定義を自前で配信して差し替える。
+            - name: ATK_FRONTEND_EMOTICONS
+              value: "https://doany.io/static/artalk/emoticons.json"
             # ソーシャルログインは使わず、読者はニックネームだけで投稿できる
             - name: ATK_AUTH_ENABLED
               value: "false"
