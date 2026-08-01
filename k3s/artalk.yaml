@@ -65,6 +65,33 @@ spec:
               value: "false"
             - name: ATK_AUTH_ANONYMOUS
               value: "true"
+            # 新着コメントをメールで受け取る。送信は Exchange Online の
+            # SMTP AUTH で、erpnext と同じ info@doany.io のメールボックスを使う。
+            - name: ATK_EMAIL_ENABLED
+              value: "true"
+            - name: ATK_EMAIL_SEND_TYPE
+              value: "smtp"
+            - name: ATK_EMAIL_SEND_ADDR
+              value: "info@doany.io"
+            - name: ATK_EMAIL_SEND_NAME
+              value: "doany.io"
+            - name: ATK_EMAIL_SMTP_HOST
+              value: "smtp.office365.com"
+            - name: ATK_EMAIL_SMTP_PORT
+              value: "587"
+            - name: ATK_EMAIL_SMTP_USERNAME
+              value: "info@doany.io"
+            - name: ATK_EMAIL_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: artalk-secrets
+                  key: smtp-password
+            # 管理者への通知はメールのみ。他人同士の返信は通知しない
+            # (noise_mode が既定で false のため)
+            - name: ATK_ADMIN_NOTIFY_EMAIL_ENABLED
+              value: "true"
+            - name: ATK_ADMIN_USERS_0_RECEIVE_EMAIL
+              value: "true"
             # JWT の署名鍵
             - name: ATK_APP_KEY
               valueFrom:
