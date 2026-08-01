@@ -131,21 +131,28 @@ body .atk-layer-wrap {
 #artalk.artalk .atk-editor-plug-preview :is(h1, h2, h3, h4, h5, h6) {
 	font-weight: 700;
 	line-height: 1.4;
-	margin: 1em 0 0.5em;
+	/* コメントは短いので、見出しの前後は詰め気味にする */
+	margin: 0.8em 0 0.35em;
 	color: var(--at-color-deep);
 }
 
+/* 階層が見て分かる程度には差をつける */
 #artalk.artalk .atk-content h1,
 #artalk.artalk .atk-editor-plug-preview h1 {
-	font-size: 1.35em;
+	font-size: 1.5em;
 }
 #artalk.artalk .atk-content h2,
 #artalk.artalk .atk-editor-plug-preview h2 {
-	font-size: 1.2em;
+	font-size: 1.25em;
 }
 #artalk.artalk .atk-content h3,
 #artalk.artalk .atk-editor-plug-preview h3 {
 	font-size: 1.1em;
+}
+#artalk.artalk .atk-content :is(h4, h5, h6),
+#artalk.artalk .atk-editor-plug-preview :is(h4, h5, h6) {
+	font-size: 1em;
+	color: var(--at-color-sub);
 }
 
 #artalk.artalk .atk-content p,

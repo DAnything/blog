@@ -15,7 +15,11 @@ export const siteConfig: SiteConfig = {
 	subtitle: "気ままな備忘録",
 	lang: "ja", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
-		hue: 250, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
+		// テーマ色の色相 (0-360)。Fuwari の既定は 250 だが、この配色は
+		// oklch(0.70 0.14 H) を使うため、170-230 と 250-290 は sRGB の色域から
+		// はみ出してクリップされる (既定の 250 もその一つ)。
+		// 色域に収まり、かつボタン文字のコントラストが最大に近い暖色域から選んだ。
+		hue: 40,
 		fixed: false, // Hide the theme color picker for visitors
 	},
 	banner: {
