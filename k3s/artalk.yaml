@@ -1,0 +1,133 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: artalk-data
+  namespace: blog
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: artalk
+  namespace: blog
+spec:
+  replicas: 1
+  # ReadWriteOnce のボリュームを使うため、新旧 Pod の同時起動を避ける
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: artalk
+  template:
+    metadata:
+      labels:
+        app: artalk
+    spec:
+      containers:
+        - name: artalk
+          image: artalk/artalk-go:2.10.0
+          ports:
+            - containerPort: 23366
+          env:
+            # 設定はすべて ATK_ 接頭辞の環境変数で渡す。
+            # ネストしたキーは区切りを _ にする (auth.anonymous -> ATK_AUTH_ANONYMOUS)
+            - name: ATK_LOCALE
+              value: "ja"
+            - name: ATK_TIMEZONE
+              value: "Asia/Tokyo"
+            - name: ATK_SITE_DEFAULT
+              value: "doany"
+            - name: ATK_SITE_URL
+              value: "https://doany.io"
+            # SQLite なので外部データベースは不要。PVC 上にファイルを置く
+            - name: ATK_DB_TYPE
+              value: "sqlite"
+            - name: ATK_DB_FILE
+              value: "/data/artalk.db"
+            # doany.io から埋め込むための許可 (複数指定は空白区切り)
+            - name: ATK_TRUSTED_DOMAINS
+              value: "https://doany.io"
+            # Traefik と Cloudflare を経由するため、実 IP はヘッダから取る
+            - name: ATK_HTTP_PROXY_HEADER
+              value: "X-Forwarded-For"
+            # ソーシャルログインは使わず、読者はニックネームだけで投稿できる
+            - name: ATK_AUTH_ENABLED
+              value: "false"
+            - name: ATK_AUTH_ANONYMOUS
+              value: "true"
+            # JWT の署名鍵
+            - name: ATK_APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: artalk-secrets
+                  key: app-key
+            # 管理者アカウント (配列なので添字を付ける)
+            - name: ATK_ADMIN_USERS_0_NAME
+              value: "ruk"
+            - name: ATK_ADMIN_USERS_0_EMAIL
+              value: "info@doany.io"
+            - name: ATK_ADMIN_USERS_0_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: artalk-secrets
+                  key: admin-password
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          readinessProbe:
+            httpGet:
+              path: /api/v2/version
+              port: 23366
+          livenessProbe:
+            httpGet:
+              path: /api/v2/version
+              port: 23366
+            initialDelaySeconds: 30
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: artalk-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: artalk
+  namespace: blog
+spec:
+  selector:
+    app: artalk
+  ports:
+    - name: http
+      port: 80
+      targetPort: 23366
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: artalk
+  namespace: blog
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: mydnschallenge
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - ak.doany.io
+  rules:
+    - host: ak.doany.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: artalk
+                port:
+                  number: 80
