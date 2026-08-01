@@ -1,0 +1,106 @@
+/* Artalk をサイトの配色に合わせる。
+ *
+ * Artalk 本体の CSS は ak.doany.io から実行時に <head> へ追加されるため、
+ * ビルド済みの CSS より後に読み込まれる。同じ詳細度だと負けるので、
+ * 変数の上書きは #artalk.artalk (0,1,1,0) で .artalk.atk-dark-mode (0,0,2,0)
+ * を確実に上回るようにしてある。
+ *
+ * ポップアップ (絵文字ピッカー等) は body 直下の .atk-layer-wrap に出るので、
+ * そちらにも同じ変数を当てる。
+ */
+
+#artalk.artalk,
+body .atk-layer-wrap {
+	--at-color-main: var(--primary);
+	--at-color-light: var(--primary);
+
+	--at-color-font: rgba(0, 0, 0, 0.75);
+	--at-color-deep: var(--deep-text);
+	--at-color-sub: rgba(0, 0, 0, 0.6);
+	--at-color-grey: rgba(0, 0, 0, 0.5);
+	--at-color-meta: rgba(0, 0, 0, 0.45);
+
+	--at-color-border: var(--line-divider);
+	--at-color-bg-grey: var(--btn-regular-bg);
+	--at-color-bg-grey-transl: var(--btn-regular-bg);
+	--at-color-bg-light: var(--btn-plain-bg-hover);
+	--at-color-gradient: linear-gradient(180deg, transparent, var(--card-bg));
+}
+
+/* コメント欄自体はカードの中に置いているので、背景は敷かない。
+   一方でポップアップは浮くのでカード色が要る。 */
+#artalk.artalk {
+	--at-color-bg: transparent;
+	--at-color-bg-transl: var(--card-bg);
+}
+
+body .atk-layer-wrap {
+	--at-color-bg: var(--card-bg);
+	--at-color-bg-transl: var(--card-bg);
+}
+
+:root.dark #artalk.artalk,
+:root.dark body .atk-layer-wrap {
+	--at-color-font: rgba(255, 255, 255, 0.75);
+	--at-color-deep: rgba(255, 255, 255, 0.9);
+	--at-color-sub: rgba(255, 255, 255, 0.6);
+	--at-color-grey: rgba(255, 255, 255, 0.5);
+	--at-color-meta: rgba(255, 255, 255, 0.45);
+}
+
+/* 本文と同じ書体にそろえる */
+#artalk.artalk,
+body .atk-layer-wrap {
+	font-family: inherit;
+}
+
+/* 入力欄まわり。既定は直角に近いので、サイトの角丸に寄せる */
+#artalk.artalk .atk-main-editor {
+	border-radius: 0.75rem;
+	border-color: var(--line-divider);
+	background: var(--btn-regular-bg);
+}
+
+#artalk.artalk .atk-textarea,
+#artalk.artalk .atk-header input {
+	font-family: inherit;
+	background: transparent;
+}
+
+/* 送信ボタンはサイトのボタン (Newsletter の「登録」など) と同じ見た目にする */
+#artalk.artalk .atk-send-btn {
+	border-radius: 0.5rem;
+	background: var(--btn-regular-bg);
+	color: var(--btn-content);
+	font-weight: 500;
+	transition: background 0.15s ease-out;
+}
+
+#artalk.artalk .atk-send-btn:hover {
+	background: var(--btn-regular-bg-hover);
+}
+
+#artalk.artalk .atk-send-btn:active {
+	background: var(--btn-regular-bg-active);
+}
+
+/* エディタ下部のアイコン類 */
+#artalk.artalk .atk-plug-btn {
+	border-radius: 0.375rem;
+	transition: background 0.15s ease-out;
+}
+
+#artalk.artalk .atk-plug-btn:hover {
+	background: var(--btn-plain-bg-hover);
+}
+
+/* コメント件数の見出しをサイトの小見出しに寄せる */
+#artalk.artalk .atk-comment-count-num {
+	color: var(--primary);
+}
+
+/* 区切り線 */
+#artalk.artalk .atk-list-header,
+#artalk.artalk .atk-comment-wrap {
+	border-color: var(--line-divider);
+}

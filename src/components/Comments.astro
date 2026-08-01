@@ -1,4 +1,5 @@
 ---
+import "@/styles/artalk.css";
 import { commentConfig } from "@/config";
 ---
 {commentConfig.enable && (
@@ -36,20 +37,34 @@ function isDark(): boolean {
 
 function mount() {
 	const container = document.getElementById("artalk");
-	if (!container || !window.Artalk) return;
+	if (!container) return;
 
-	// 2 回目以降 (swup 遷移) は既存インスタンスを捨てて作り直す
-	instance?.destroy();
-	instance = window.Artalk.init({
-		el: container,
-		server: artalkConfig.server,
-		site: artalkConfig.site,
-		locale: artalkConfig.locale,
-		darkMode: isDark(),
-		// クエリ文字列でスレッドが分かれないよう URL を明示する
-		pageKey: location.origin + location.pathname,
-		pageTitle: document.title,
-	});
+	// 黙って失敗すると空のカードだけが残って原因が追えないため、
+	// 読み込み漏れと初期化エラーはコンソールに出す
+	if (!window.Artalk) {
+		console.error(
+			`[comments] Artalk を読み込めませんでした (${artalkConfig.server}/dist/Artalk.js)`,
+		);
+		return;
+	}
+
+	try {
+		// 2 回目以降 (swup 遷移) は既存インスタンスを捨てて作り直す
+		instance?.destroy();
+		instance = window.Artalk.init({
+			el: container,
+			server: artalkConfig.server,
+			site: artalkConfig.site,
+			locale: artalkConfig.locale,
+			darkMode: isDark(),
+			// クエリ文字列でスレッドが分かれないよう URL を明示する
+			pageKey: location.origin + location.pathname,
+			pageTitle: document.title,
+		});
+	} catch (e) {
+		instance = null;
+		console.error("[comments] Artalk の初期化に失敗しました", e);
+	}
 }
 
 // 初回だけローダーを注入する。読み込み後に window.Artalk が生える。
