@@ -4,7 +4,7 @@ import { commentConfig } from "@/config";
 {commentConfig.enable && (
     <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
         <div class="card-base z-10 px-6 md:px-9 py-6 relative w-full">
-            <div id="remark42"></div>
+            <div id="artalk"></div>
         </div>
     </div>
 )}
@@ -12,70 +12,66 @@ import { commentConfig } from "@/config";
 <script>
 import { commentConfig } from "@/config";
 
-const { remark42 } = commentConfig;
+const { artalk: artalkConfig } = commentConfig;
+
+type ArtalkInstance = {
+	destroy: () => void;
+	setDarkMode: (dark: boolean) => void;
+};
 
 declare global {
 	interface Window {
-		remark_config?: Record<string, unknown>;
-		REMARK42?: {
-			changeTheme?: (theme: string) => void;
-			destroy?: () => void;
-			createInstance?: (config: Record<string, unknown>) => void;
+		Artalk?: {
+			init: (conf: Record<string, unknown>) => ArtalkInstance;
 		};
 	}
 }
 
-// テーマ切替は html 要素の dark クラスの付け外しで行われる
-function currentTheme(): string {
-	return document.documentElement.classList.contains("dark") ? "dark" : "light";
-}
+let instance: ArtalkInstance | null = null;
 
-function buildConfig() {
-	return {
-		host: remark42.host,
-		site_id: remark42.siteId,
-		components: ["embed"],
-		locale: remark42.locale,
-		theme: currentTheme(),
-		simple_view: remark42.simpleView,
-		show_email_subscription: remark42.showEmailSubscription,
-		show_rss_subscription: remark42.showRssSubscription,
-		// クエリ文字列でスレッドが分かれないよう URL を明示する
-		url: location.origin + location.pathname,
-	};
+// テーマ切替は html 要素の dark クラスの付け外しで行われる
+function isDark(): boolean {
+	return document.documentElement.classList.contains("dark");
 }
 
 function mount() {
-	const container = document.getElementById("remark42");
-	if (!container) return;
-
-	window.remark_config = buildConfig();
+	const container = document.getElementById("artalk");
+	if (!container || !window.Artalk) return;
 
 	// 2 回目以降 (swup 遷移) は既存インスタンスを捨てて作り直す
-	if (window.REMARK42?.createInstance) {
-		window.REMARK42.destroy?.();
-		window.REMARK42.createInstance(window.remark_config);
+	instance?.destroy();
+	instance = window.Artalk.init({
+		el: container,
+		server: artalkConfig.server,
+		site: artalkConfig.site,
+		locale: artalkConfig.locale,
+		darkMode: isDark(),
+		// クエリ文字列でスレッドが分かれないよう URL を明示する
+		pageKey: location.origin + location.pathname,
+		pageTitle: document.title,
+	});
+}
+
+// 初回だけローダーを注入する。読み込み後に window.Artalk が生える。
+function load() {
+	if (window.Artalk) {
+		mount();
 		return;
 	}
 
-	// 初回はローダーを注入する。読み込み後に window.REMARK42 が生える。
-	const useModule = "noModule" in HTMLScriptElement.prototype;
-	for (const name of ["embed"]) {
-		const script = document.createElement("script");
-		if (useModule) {
-			script.type = "module";
-			script.src = `${remark42.host}/web/${name}.mjs`;
-		} else {
-			script.async = true;
-			script.defer = true;
-			script.src = `${remark42.host}/web/${name}.js`;
-		}
-		(document.head || document.body).appendChild(script);
-	}
+	const css = document.createElement("link");
+	css.rel = "stylesheet";
+	css.href = `${artalkConfig.server}/dist/Artalk.css`;
+	document.head.appendChild(css);
+
+	const script = document.createElement("script");
+	script.src = `${artalkConfig.server}/dist/Artalk.js`;
+	script.onload = mount;
+	document.head.appendChild(script);
 }
 
 function syncTheme() {
-	window.REMARK42?.changeTheme?.(currentTheme());
+	instance?.setDarkMode(isDark());
 }
 
 if (commentConfig.enable) {
@@ -85,10 +81,10 @@ if (commentConfig.enable) {
 	});
 
 	const setup = () => {
-		window.swup.hooks.on("page:view", mount);
+		window.swup.hooks.on("page:view", load);
 	};
 
-	mount();
+	load();
 
 	if (window?.swup?.hooks) {
 		setup();

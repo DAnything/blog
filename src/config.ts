@@ -109,13 +109,10 @@ export const licenseConfig: LicenseConfig = {
 
 export const commentConfig: CommentConfig = {
 	enable: true,
-	remark42: {
-		host: "https://r.doany.io",
-		siteId: "doany",
+	artalk: {
+		server: "https://ak.doany.io",
+		site: "doany",
 		locale: "ja",
-		simpleView: false,
-		showEmailSubscription: false,
-		showRssSubscription: true,
 	},
 };
 

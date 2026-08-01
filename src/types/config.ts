@@ -77,21 +77,17 @@ export type LicenseConfig = {
 	url: string;
 };
 
-export type Remark42Config = {
-	/** remark42 サーバーの URL (REMARK_URL と一致させる) */
-	host: string;
-	/** remark42 の SITE と一致させる */
-	siteId: string;
+export type ArtalkConfig = {
+	/** Artalk バックエンドの URL */
+	server: string;
+	/** Artalk の ATK_SITE_DEFAULT と一致させる */
+	site: string;
 	locale: string;
-	/** true にすると返信・スレッド表示を省いた簡易 UI になる */
-	simpleView: boolean;
-	showEmailSubscription: boolean;
-	showRssSubscription: boolean;
 };
 
 export type CommentConfig = {
 	enable: boolean;
-	remark42: Remark42Config;
+	artalk: ArtalkConfig;
 };
 
 export type KofiConfig = {
