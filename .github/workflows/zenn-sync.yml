@@ -1,7 +1,8 @@
 name: Zenn Sync
 
-# Zenn はリポジトリ直下の articles/*.md しか読まないため、
-# src/content/posts の記事を変換して articles/ に生成する。
+# Zenn はリポジトリ直下の articles/*.md しか読まず、ベースディレクトリも
+# 指定できない。生成物を main に置きたくないので、専用の zenn ブランチへ
+# 出力し、Zenn の同期対象をそちらに向けている。
 on:
   push:
     branches: [main]
@@ -13,7 +14,6 @@ on:
 permissions:
   contents: write
 
-# docker-publish も main へ commit するため、同時実行を避ける
 concurrency:
   group: zenn-sync
   cancel-in-progress: false
@@ -30,23 +30,28 @@ jobs:
 
       - run: node scripts/zenn-sync.mjs
 
-      # Pushes with the default GITHUB_TOKEN don't trigger new workflow runs,
-      # so this commit does not re-trigger this workflow.
-      - name: Commit generated articles
+      - name: Publish to the zenn branch
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # zenn ブランチは articles/ だけを持つ生成物用のブランチ。
+          # 別クローンに差し替えて push する (main の作業ツリーには触らない)。
+          work=$(mktemp -d)
+          git clone --quiet --branch zenn --depth 1 \
+            "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$work"
+
+          rm -rf "$work/articles"
+          cp -r articles "$work/articles"
+
+          cd "$work"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A articles
+
           if git diff --cached --quiet; then
             echo "変更なし"
             exit 0
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: sync Zenn articles"
-          # docker-publish が同じ push で main を進めることがあるため、弾かれたら rebase して retry
-          for _ in 1 2 3; do
-            if git push; then
-              exit 0
-            fi
-            git pull --rebase origin main
-          done
-          exit 1
+
+          git commit -m "chore: sync Zenn articles from ${GITHUB_SHA}"
+          git push origin zenn

@@ -12,6 +12,7 @@ dist
 
 # infra (イメージのビルドには不要)
 k3s
+# Zenn 用の生成物。手元で pnpm zenn-sync を叩くと残るのでビルド文脈から外す
 articles
 compose.yml
 compose.sample.yml
